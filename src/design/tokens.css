@@ -1,27 +1,47 @@
 /*
- * Design tokens — structure from docs/DESIGN-BRIEF.md §4.
- * VALUES PROVISIONAL UNTIL D-02. Do not tune colours here before the direction is chosen;
- * the variable NAMES are the contract, the values are neutral stand-ins.
+ * Design tokens — structure from docs/DESIGN-BRIEF.md §4, values from Direction 1 "Print shop"
+ * (chosen by Pim at M1; see docs/design/tokens.md). FINAL: request new tokens via a PR Request.
  * Mirrored in tokens.ts (keep both in sync). Motion vars mirror motion.ts.
  */
 :root {
   /* colour */
-  --ink: #111111;
-  --paper: #f4f1ea;
-  --paper-2: #e8e4d9;
-  --accent-1: #5c5c5c;
-  --accent-2: #8a8a8a;
+  --ink: #17140f;
+  --paper: #f3ead2;
+  --paper-2: #e6dbbd;
+  --accent-1: #2346c7;
+  --accent-2: #e9b320;
   /* pack accents */
-  --tint-1: #c9bfa8;
-  --tint-2: #a9b8c2;
-  --tint-3: #b5c2ab;
-  --tint-4: #c8adab;
-  --tint-5: #b9aec6;
+  --tint-1: #ee9f82;
+  --tint-2: #8fb4e3;
+  --tint-3: #9cc8a0;
+  --tint-4: #efc958;
+  --tint-5: #bfa8e0;
   /* rarity */
-  --rarity-common: #8f8f8f;
-  --rarity-uncommon: #6f8f7a;
-  --rarity-rare: #6f7fa3;
-  --rarity-holo: #a3886f;
+  --rarity-common: #cdbf9f;
+  --rarity-uncommon: #9cc8a0;
+  --rarity-rare: #2346c7;
+  --rarity-holo: #e9b320;
+
+  /* roles & extras (from Direction 1) */
+  --ink-2: #514a3a;
+  --on-accent-1: var(--paper);
+  --on-accent-2: var(--ink);
+  --primary: var(--accent-2);
+  --on-primary: var(--ink);
+  --shadow-0: 2px 2px 0 var(--ink);
+  --shadow-3: 12px 12px 0 var(--ink);
+  --display-weight: 400;
+  --display-transform: uppercase;
+  --display-tracking: -0.015em;
+  --display-leading: 1;
+  --stage-texture: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--ink) 26%, transparent) 1.2px,
+    transparent 1.6px
+  );
+  --stage-texture-size: 20px 20px;
+  --wrap: color-mix(in srgb, var(--paper) 7%, transparent);
+  --holo-band: color-mix(in srgb, white 72%, transparent);
 
   /* geometry */
   --border-1: 2px;

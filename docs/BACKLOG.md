@@ -21,8 +21,8 @@ PLAN §6. **Depends on** must be `done` before a story starts.
 
 | ID | Story | Size | Depends on | Owns | Status |
 |---|---|---|---|---|---|
-| [D-01](stories/D-01.md) | Two NeoBrutalist style tiles at `/dev/direction/1` and `/2` | M | F-06 | `src/dev/direction/*` | todo |
-| [D-02](stories/D-02.md) | Pim picks → finalise tokens, type scale, rarity + tint ramps, placeholder art design | S | D-01 + Pim's choice | `src/design/tokens.css`, `tokens.ts` | todo |
+| [D-01](stories/D-01.md) | Two NeoBrutalist style tiles at `/dev/direction/1` and `/2` | M | F-06 | `src/dev/direction/*` | done |
+| [D-02](stories/D-02.md) | Pim picks → finalise tokens, type scale, rarity + tint ramps, placeholder art design | S | D-01 + Pim's choice | `src/design/tokens.css`, `tokens.ts` | done |
 | [D-03](stories/D-03.md) | Primitive kit + `/dev/kit`: Button, IconButton, Toggle, Badge, Frame, Chip, Kbd, VisuallyHidden | M | D-02 | `src/ui/*` | todo |
 
 **Milestone M1** after D-03.

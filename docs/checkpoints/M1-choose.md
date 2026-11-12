@@ -35,3 +35,7 @@ Two style tiles, real CSS, same sections, same content. Pick one and D-02 freeze
 - "2, with black ink instead of navy"
 
 Reply with the number and any swaps; D-02 takes it from there.
+
+## Decision
+
+2026-11-12: Pim picked **Direction 1 — Print shop**, no swaps.

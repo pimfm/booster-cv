@@ -4,3 +4,4 @@
 // browser only downloads the subsets actually used on the page.
 import '@fontsource/archivo-black/latin-400.css';
 import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/inter/wght-italic.css';
