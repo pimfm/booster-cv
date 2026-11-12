@@ -1,0 +1,20 @@
+{
+  "name": "booster-cv",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . && node scripts/lint-tokens.mjs",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run content:check",
+    "e2e": "playwright test",
+    "content:check": "node scripts/content-check.mjs",
+    "content:new": "node scripts/content-new.mjs",
+    "content:stats": "node scripts/content-check.mjs --stats",
+    "og:render": "node scripts/og-render.mjs"
+  }
+}

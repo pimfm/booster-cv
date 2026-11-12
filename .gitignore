@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+test-results
+playwright-report
+.DS_Store
+*.local
+e2e/__screens__/*
+!e2e/__screens__/.gitkeep
