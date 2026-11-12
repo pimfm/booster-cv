@@ -7,6 +7,24 @@ changes them **here and in `src/design/motion.ts` together**.
 Notation: `phase` refers to `ExperienceState.phase` in `src/machine/`. Numbers are
 desktop unless a mobile value is given. "Spring X" refers to `spring.X` in motion.ts.
 
+**Machine decisions (F-04)** that the sections below follow — the full `ExperienceState`
+and `Action` types are in PLAN §5:
+- There is no `pack-torn` phase. A completed tear goes straight to `revealing`; the tear
+  and stack-rise animation plays *during* `revealing`, and the stack ignores input for its
+  first 400 ms.
+- `holdProgress` is **linear** (a time fraction 0..1). Visuals apply `holdCurve` through
+  `holdVisual(p)` (`src/machine/selectors.ts`); the hold marks 0.33 / 0.66 apply to the
+  linear progress. All hold fields (`holdProgress`, `holdDirection`, `holdTarget`) reset
+  when a hold completes.
+- `lastHoldCancelledAt` is a counter (1, 2, …) of early releases, not a timestamp.
+- The machine completes holds itself (on the `HOLD_TICK` that reaches 1). The UI
+  dispatches `TEAR_COMPLETE` only under reduced motion, where one press replaces the hold.
+- In `all-collected` the contact card is queued; the UI dispatches `DRAW_CARD` for it
+  automatically (§7).
+- `RESET` → `resetting` (binder still filled, so it can fade out) → `RESET_DONE` → `sealed`.
+- Card counts are derived from content, never hard-coded: `n / n` below means the total
+  including the contact card (the current placeholder set: 16 cards + contact = 17).
+
 ---
 
 ## 0. Layout regions
@@ -36,7 +54,8 @@ desktop unless a mobile value is given. "Spring X" refers to `spring.X` in motio
 overlay with a diagonal "seam" line and a small tab in the top right. Beneath the box,
 one line of copy: *"Hold to open"* (strings.hold_box). On the box face: Pim's name as the
 "set name", a subtitle line (strings.box_subtitle, e.g. "Booster box · 1 of 1"), and the
-card count `24 cards · 4 packs` derived from content.
+card count (strings.box_counts, e.g. `16 cards · 4 packs` for the placeholder set)
+derived from content.
 
 **Idle**: no motion. (Reduced-motion and sighted users see the same.)
 
@@ -44,21 +63,27 @@ card count `24 cards · 4 packs` derived from content.
 `--shadow-1` to `--shadow-2`, `dur.sm`, `ease.out`.
 
 **Hold** (`pointerdown` / `Space` or `Enter` keydown held):
-- phase → `unwrapping`; `holdProgress` ramps 0 → 1 over `hold.durationMs` (900 ms) with
-  the easing `holdCurve(t) = t < 0.7 ? t * 0.8 : 0.56 + (t - 0.7) * 1.4667` — slow
-  then quick, so the end feels like a snap.
-- Visual mapping of progress `p`:
+- phase → `unwrapping`; `holdProgress` ramps **linearly** 0 → 1 over `hold.durationMs`
+  (900 ms). Visuals read it through the easing
+  `holdCurve(t) = t < 0.7 ? t * 0.8 : 0.56 + (t - 0.7) * 1.4667` — slow then quick, so
+  the end feels like a snap. `holdVisual(holdProgress)` returns the curved value and
+  every number below.
+- Visual mapping of curved progress `p = holdCurve(holdProgress)`:
   - wrap seam brightness: opacity `0.4 + 0.6p`
   - box scale: `1 - 0.03p` (it compresses under the thumb)
   - wrap tab rotates `0 → -18deg` and translates up `0 → -6px`
-  - at `p ≥ 0.33` and `p ≥ 0.66` a 1-frame 1px shake (`x: [0, -1, 1, 0]`, 90 ms)
+  - at linear `holdProgress ≥ 0.33` and `≥ 0.66` a 1-frame 1px shake (`x: [0, -1, 1, 0]`, 90 ms)
     and, if audio is on, `tick` sample at 50 % volume
   - a progress ring is **not** shown; progress is read from the object itself. For
     assistive tech the live region says "Opening…" once at hold start.
-- **Release before `p = 1`**: phase → `sealed`; progress returns to 0 over
-  `hold.cancelReturnMs` (260 ms) with `ease.out`; the copy under the box changes to
+- **Release before `p = 1`** (`HOLD_END`): phase → `sealed`, `holdDirection` → `'down'`;
+  progress returns linearly to 0 over `hold.cancelReturnMs` (260 ms; visuals ease it with
+  `ease.out`); `lastHoldCancelledAt` increments, and the copy under the box changes to
   strings.hold_not_yet (*"Not yet — keep holding."*) for 1.6 s then reverts. No sound.
-- **`p` reaches 1**: dispatch `TEAR_COMPLETE` (handled by the machine as box open).
+- **`p` reaches 1**: the machine opens the box itself on that `HOLD_TICK` (phase →
+  `box-open`, hold fields reset). The UI never dispatches `TEAR_COMPLETE` for a hold.
+- **Reduced motion**: no hold. One click / Enter / Space on the box dispatches
+  `TEAR_COMPLETE`, which opens it directly.
 
 **Open sequence** (`unwrapping` → `box-open`, total ≈ 1.1 s):
 1. 0 ms: wrap splits along the seam into two pieces; each flies off-stage in its
@@ -92,16 +117,19 @@ square; they are not interactive.
   `Esc` also unfocuses.
 - Copy under the pack: strings.hold_pack (*"Hold to tear"*).
 
-## 3. `pack-focused` → `pack-tearing` → `pack-torn`
+## 3. `pack-focused` → `pack-tearing` → `revealing`
 
 Hold mechanics are identical to §1 (same `holdCurve`, same durations), mapped to the
 pack:
 - crimped top edge: a seam highlight grows from the left edge to full width with `p`
 - pack skews `skewX(-1.5deg · p)` and scales `1 - 0.04p`; its content shifts 2 px down
-- at the 0.33 / 0.66 marks: the shake and `tick`
-- release early: relax back over 260 ms, copy → strings.hold_not_yet
+- at the 0.33 / 0.66 marks (linear progress): the shake and `tick`
+- release early: phase → `pack-focused`, relax back over 260 ms, copy → strings.hold_not_yet
+- reduced motion: one press dispatches `TEAR_COMPLETE`, as for the box
 
-**Tear** (`TEAR_COMPLETE`, phase → `pack-torn`, ≈ 700 ms):
+**Tear** (hold reaches 1, or `TEAR_COMPLETE` under reduced motion; phase → `revealing`
+at once, `queue` = the pack's uncollected cards in authored order; the beats below play
+during `revealing`, ≈ 700 ms):
 1. The crimped strip (top 14 %) detaches: translates `y: -40px, x: 24px`, rotates 9°,
    fades, `spring.pack`. Sound: `tear`.
 2. 90 ms later the pack body drops 8 px and its opacity goes to 0.75.
@@ -109,7 +137,8 @@ pack:
    40 % of their height, staggered 40 ms, each with `spring.card`, until a stack of up
    to 5 visible backs (offset 3 px/−3 px alternating) shows. If the pack has more
    than 5 cards, the stack renders 5 and the count label says the real number.
-4. 400 ms: pack body fades out; stack settles centred; phase → `revealing`.
+4. 400 ms: pack body fades out; stack settles centred. The stack ignores `DRAW_CARD`
+   input until here (its first 400 ms in `revealing`).
    Copy: strings.tap_to_draw (*"Tap the top card"*), and `n left`.
 
 Reduced motion: strip fades, stack fades in.
@@ -148,7 +177,8 @@ Reduced motion: strip fades, stack fades in.
 - Binder counter increments (BN-02). Sound: `slide`.
 - If `queue` is non-empty: phase → `revealing`, copy → `n left` (singular form for 1:
   strings.last_in_pack *"Last one in this pack."*).
-- If `queue` is empty: phase → `pack-complete`.
+- If `queue` is empty: phase → `pack-complete` (or `all-collected` when the card was the
+  contact card, §7).
 
 ## 5. `card-detail`
 
@@ -178,19 +208,25 @@ Scroll: the text column scrolls if needed; the page never scrolls.
 ## 7. `all-collected`
 
 - Shelf shows all packs flattened; the tray line gets a stamp *"Opened"* in the corner.
-- Copy: strings.all_done (*"That's the box. Thanks for opening it."*) and the
-  **contact card** (CT-04) is drawn automatically onto the stage as a final card
-  (rarity `holo`, pack-less, numbered `★`). It behaves like any stage card, including
-  Read (with email, links) and Collect, after which the binder is complete and the
-  binder header says `24 / 24` with a filled square.
+- On entering `all-collected` the machine queues the **contact card** (CT-04) unless it
+  is already in the binder, and the UI dispatches `DRAW_CARD` for it automatically: it is
+  drawn onto the stage as a final card (rarity `holo`, pack-less, numbered `★`). It
+  behaves like any stage card, including Read (with email, links) and Collect; collecting
+  it returns to `all-collected` with an empty queue, the binder is complete and its
+  header says `n / n` (derived from content: currently `17 / 17`) with a filled square.
+- Copy: strings.all_done (*"That's the box. Thanks for opening it."*) once the queue is
+  empty.
 - A text link under the stage: strings.reset (*"Reset box"*).
 
 ## 8. `resetting`
 
 `RESET` from the header or the link opens a tiny inline confirm (no modal): *"Put the
-wrap back on? Your binder empties."* with Yes/No as two buttons. On Yes: binder slots
-fade out in reverse order (`dur.xs` stagger 20 ms, capped at 600 ms total), the shelf
-packs fade, the box fades back in wrapped, phase → `sealed`. Persistence cleared.
+wrap back on? Your binder empties."* with Yes/No as two buttons. The confirm is UI
+state; only Yes dispatches `RESET` (phase → `resetting`; `collected` / `openedPacks` are
+kept so the binder can fade out). Binder slots fade out in reverse order (`dur.xs`
+stagger 20 ms, capped at 600 ms total), the shelf packs fade, the box fades back in
+wrapped; then the UI dispatches `RESET_DONE` → initial state, phase `sealed`.
+Persistence cleared.
 
 ## 9. Binder (all phases)
 
@@ -230,7 +266,14 @@ export function holdCurve(t: number): number;                   // see §1
 export function advanceHold(progress: number, dtMs: number, durationMs = hold.durationMs): number;
 export function relaxHold(progress: number, dtMs: number, returnMs = hold.cancelReturnMs): number;
 export function crossedMark(prev: number, next: number, marks: readonly number[]): number | null;
+// src/machine/selectors.ts
+export function holdVisual(p: number): HoldVisual; // p = LINEAR holdProgress; applies holdCurve
 ```
+
+All of these take and return **linear** progress except `holdCurve` / `holdVisual`.
+`ExperienceProvider` runs the `HOLD_TICK` loop (one per animation frame, frames clamped
+to 64 ms) while `holdDirection !== 'idle'`, and the reducer completes the hold on the tick
+that reaches 1.
 
 The React side drives `HOLD_TICK` from `requestAnimationFrame` while a pointer or key is
 held; the machine owns progress; components only read it. Pointer cancel, `blur`,

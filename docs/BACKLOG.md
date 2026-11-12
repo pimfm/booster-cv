@@ -8,12 +8,12 @@ PLAN §6. **Depends on** must be `done` before a story starts.
 
 | ID | Story | Size | Depends on | Owns (summary) | Status |
 |---|---|---|---|---|---|
-| [F-01](stories/F-01.md) | Scaffold: Vite + React + TS strict, lint, Vitest, Playwright, CI | M | — | repo root, `.github/`, `e2e/` config | todo |
-| [F-02](stories/F-02.md) | Design skeleton: tokens.css structure, motion.ts, reset, fonts, `useMotionPrefs` | S | F-01 | `src/design/*` | todo |
-| [F-03](stories/F-03.md) | Content schema, `define*`, loader, placeholder set, strings keys, `content:check` | M | F-01 | `src/content/*`, `content/*`, `scripts/content-check` | todo |
-| [F-04](stories/F-04.md) | Experience state machine + hold maths + `ExperienceProvider` | M | F-03 | `src/machine/*` | todo |
-| [F-05](stories/F-05.md) | Test harness: Playwright projects, reduced-motion fixture, hold override, screenshot helper | S | F-01, F-04 | `e2e/fixtures.ts`, `playwright.config.ts` | todo |
-| [F-06](stories/F-06.md) | App shell with slots, dev routes, LiveRegion stub, `layoutIds.ts` | S | F-02, F-04 | `src/app/*`, `src/scene/layoutIds.ts`, slot stubs | todo |
+| [F-01](stories/F-01.md) | Scaffold: Vite + React + TS strict, lint, Vitest, Playwright, CI | M | — | repo root, `.github/`, `e2e/` config | done |
+| [F-02](stories/F-02.md) | Design skeleton: tokens.css structure, motion.ts, reset, fonts, `useMotionPrefs` | S | F-01 | `src/design/*` | done |
+| [F-03](stories/F-03.md) | Content schema, `define*`, loader, placeholder set, strings keys, `content:check` | M | F-01 | `src/content/*`, `content/*`, `scripts/content-check` | done |
+| [F-04](stories/F-04.md) | Experience state machine + hold maths + `ExperienceProvider` | M | F-03 | `src/machine/*` | done |
+| [F-05](stories/F-05.md) | Test harness: Playwright projects, reduced-motion fixture, hold override, screenshot helper | S | F-01, F-04 | `e2e/fixtures.ts`, `playwright.config.ts` | done |
+| [F-06](stories/F-06.md) | App shell with slots, dev routes, LiveRegion stub, `layoutIds.ts` | S | F-02, F-04 | `src/app/*`, `src/scene/layoutIds.ts`, slot stubs | done |
 
 **Milestone M0** after F-06.
 

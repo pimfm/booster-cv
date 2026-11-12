@@ -94,30 +94,81 @@ contact card. Progress survives a refresh; a quiet "Reset box" puts the wrap bac
 `src/machine/` exports:
 
 ```ts
-type Phase =
-  | 'sealed' | 'unwrapping' | 'box-open'
-  | 'pack-focused' | 'pack-tearing' | 'pack-torn'
-  | 'revealing' | 'card-on-stage' | 'card-detail'
-  | 'pack-complete' | 'all-collected' | 'resetting';
+// src/machine/types.ts (verbatim)
+export const PHASES = [
+  'sealed',
+  'unwrapping',
+  'box-open',
+  'pack-focused',
+  'pack-tearing',
+  'revealing',
+  'card-on-stage',
+  'card-detail',
+  'pack-complete',
+  'all-collected',
+  'resetting',
+] as const;
 
-interface ExperienceState {
+export type Phase = (typeof PHASES)[number];
+
+/** 'up' while held, 'down' while relaxing after an early release, 'idle' otherwise. */
+export type HoldDirection = 'up' | 'down' | 'idle';
+export type HoldTarget = 'box' | 'pack';
+
+export interface ExperienceState {
   phase: Phase;
-  focusedPackId: PackId | null;
-  holdProgress: number;            // 0..1, only meaningful in 'unwrapping' | 'pack-tearing'
-  queue: CardId[];                 // cards still in the open pack, top first
-  stageCardId: CardId | null;
-  collected: CardId[];             // binder, in collection order
-  openedPacks: PackId[];
-  seenRare: boolean;               // for one-time micro-moments
+  /** set from FOCUS_PACK until DISMISS_PACK / UNFOCUS_PACK */
+  focusedPackId: string | null;
+  /** LINEAR time fraction 0..1 — visuals apply `holdCurve` (see `holdVisual`) */
+  holdProgress: number;
+  holdDirection: HoldDirection;
+  /** what is being held or is relaxing; null when idle */
+  holdTarget: HoldTarget | null;
+  /** null until the first early release, then a counter (1, 2, …) — not a timestamp */
+  lastHoldCancelledAt: number | null;
+  /** cards still to draw, top first */
+  queue: string[];
+  stageCardId: string | null;
+  detailCardId: string | null;
+  /** where CLOSE_DETAIL goes back to; only set in 'card-detail' */
+  returnPhase: Phase | null;
+  /** the binder, in collection order */
+  collected: string[];
+  /** in the order the packs were finished */
+  openedPacks: string[];
+  /** a rare or holo card has been drawn (or hydrated) at least once */
+  seenRare: boolean;
 }
 
-type Action =
-  | { type: 'HOLD_START' } | { type: 'HOLD_TICK'; dtMs: number } | { type: 'HOLD_END' }
-  | { type: 'FOCUS_PACK'; packId: PackId } | { type: 'UNFOCUS_PACK' }
-  | { type: 'TEAR_COMPLETE' } | { type: 'DRAW_CARD' } | { type: 'OPEN_DETAIL' }
-  | { type: 'CLOSE_DETAIL' } | { type: 'COLLECT_CARD' } | { type: 'DISMISS_PACK' }
-  | { type: 'RESET' } | { type: 'HYDRATE'; state: PersistedState };
+export type Action =
+  | { type: 'HOLD_START' }
+  | { type: 'HOLD_TICK'; dtMs: number }
+  | { type: 'HOLD_END' }
+  | { type: 'TEAR_COMPLETE' }
+  | { type: 'FOCUS_PACK'; packId: string }
+  | { type: 'UNFOCUS_PACK' }
+  | { type: 'DRAW_CARD' }
+  | { type: 'OPEN_DETAIL'; cardId?: string }
+  | { type: 'CLOSE_DETAIL' }
+  | { type: 'COLLECT_CARD' }
+  | { type: 'DISMISS_PACK' }
+  | { type: 'RESET' }
+  | { type: 'RESET_DONE' }
+  | { type: 'HYDRATE'; collected: readonly string[]; openedPacks: readonly string[] };
 ```
+
+Decisions made in F-04 (details in INTERACTION-SPEC, "Machine decisions"):
+- No `pack-torn` phase: a tear goes straight to `revealing`; the stack-rise plays during
+  `revealing` and the stack ignores input for its first 400 ms.
+- `holdProgress` is linear; visuals apply `holdCurve` via `holdVisual`. Hold marks
+  0.33 / 0.66 apply to linear progress. Hold fields reset when a hold completes.
+- The machine completes holds itself; the UI dispatches `TEAR_COMPLETE` only under
+  reduced motion (one press instead of a hold).
+- In `all-collected` the contact card is queued and the UI dispatches `DRAW_CARD` for it.
+- `RESET` → `resetting` → `RESET_DONE` → `sealed`.
+- `VALID_ACTIONS` (reducer.ts) is the whole validity table; anything else returns the
+  same state object.
+- Card counts come from content (`totalCount(bundle)` = pack cards + contact card).
 
 Story **F-04** owns this file. Everything else consumes it. Changing it requires a PR
 that touches `docs/INTERACTION-SPEC.md` in the same change.

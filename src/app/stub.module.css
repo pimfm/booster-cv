@@ -1,0 +1,103 @@
+/*
+ * Looks for the F-06 stand-in components only: outlined, unstyled, tokens only.
+ * A lane that replaces a stub's body drops this import and brings its own module.
+ */
+.slot {
+  display: grid;
+  justify-items: center;
+  gap: var(--s-3);
+}
+
+.target {
+  display: grid;
+  place-items: center;
+  gap: var(--s-2);
+  min-width: 12rem;
+  min-height: 9rem;
+  padding: var(--s-4);
+  border: var(--border-2) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper-2);
+  box-shadow: var(--shadow-1);
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.hold {
+  touch-action: none;
+}
+
+.target:disabled {
+  border-style: dashed;
+  box-shadow: none;
+  opacity: 0.6;
+  cursor: default;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-3);
+}
+
+.button {
+  min-height: 2.75rem;
+  padding: var(--s-2) var(--s-4);
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+}
+
+.small {
+  font-size: var(--step--1);
+}
+
+.card {
+  display: grid;
+  gap: var(--s-2);
+  width: min(18rem, 100%);
+  padding: var(--s-4);
+  border: var(--border-2) solid var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  box-shadow: var(--shadow-1);
+}
+
+.flavour {
+  font-style: italic;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-detail);
+  display: grid;
+  place-items: center;
+  padding: var(--s-4);
+  background: color-mix(in srgb, var(--ink) 40%, transparent);
+}
+
+.panel {
+  display: grid;
+  gap: var(--s-3);
+  width: min(32rem, 100%);
+  max-height: 100%;
+  overflow: auto;
+  padding: var(--s-6);
+  border: var(--border-2) solid var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  box-shadow: var(--shadow-2);
+}
+
+.body {
+  white-space: pre-line;
+}

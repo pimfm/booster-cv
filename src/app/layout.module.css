@@ -1,0 +1,74 @@
+/* The shell grid (INTERACTION-SPEC §0): header / stage / binder. The page never scrolls. */
+.shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) 96px;
+  grid-template-areas:
+    'header'
+    'stage'
+    'binder';
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.shell > [data-slot='header'] {
+  grid-area: header;
+  z-index: var(--z-chrome);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-4);
+  border-bottom: var(--border-1) solid var(--ink);
+}
+
+.main {
+  grid-area: stage;
+  position: relative;
+  z-index: var(--z-stage);
+  min-width: 0;
+  min-height: 0;
+}
+
+.main > [data-slot='stage'] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-4);
+  height: 100%;
+  padding: var(--s-4);
+  overflow: hidden auto;
+}
+
+/* Mobile: bottom strip, scrolls sideways. */
+.shell > [data-slot='binder'] {
+  grid-area: binder;
+  z-index: var(--z-binder);
+  min-width: 0;
+  min-height: 0;
+  overflow: auto hidden;
+  padding: var(--s-2) var(--s-3);
+  border-top: var(--border-1) solid var(--ink);
+  background: var(--paper-2);
+}
+
+/* Desktop: right rail, scrolls down. */
+@media (min-width: 900px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr) 220px;
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas:
+      'header header'
+      'stage binder';
+  }
+
+  .shell > [data-slot='binder'] {
+    overflow: hidden auto;
+    padding: var(--s-3);
+    border-top: 0;
+    border-left: var(--border-1) solid var(--ink);
+  }
+}
