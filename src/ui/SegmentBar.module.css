@@ -1,0 +1,41 @@
+/* Sized in em: the parent's font-size scales the bar (card thumbnails vs. detail view). */
+.bar {
+  display: grid;
+  grid-template-columns: minmax(3em, 5.5em) minmax(0, max-content) auto;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--ink);
+}
+.label {
+  font-size: 0.82em;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.segments {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 0.86em));
+  gap: 0.18em;
+}
+.segment {
+  position: relative;
+  aspect-ratio: 1;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+}
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--segment-fill);
+  transform-origin: 50% 100%;
+}
+.value {
+  font-size: 0.82em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}

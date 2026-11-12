@@ -1,0 +1,33 @@
+.badge {
+  display: inline-flex;
+  align-items: stretch;
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1;
+}
+.mark {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  padding: 0 var(--s-2);
+  border-right: var(--border-1) solid var(--ink);
+  background: var(--rarity-common);
+  color: var(--ink);
+}
+.badge[data-rarity='uncommon'] .mark {
+  background: var(--rarity-uncommon);
+}
+.badge[data-rarity='rare'] .mark {
+  background: var(--rarity-rare);
+  color: var(--on-accent-1);
+}
+.badge[data-rarity='holo'] .mark {
+  background: var(--rarity-holo);
+}
+.label {
+  padding: 7px var(--s-3);
+}

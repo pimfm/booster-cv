@@ -72,12 +72,16 @@ Rules enforced by `npm run content:check`:
 ```ts
 import { defineCard } from '../../src/content/define';
 
+// Copy this file, rename it to <id>.ts, and add the id to a pack in ../packs.ts —
+// or let `npm run content:new -- --id <id> --pack <pack>` do all three.
+// Files starting with "_" are never loaded. "Placeholder" in a title or flavour is
+// counted by content:stats and fails content:check --no-placeholders.
 export default defineCard({
   id: 'my-card-id',
   kind: 'trait',
   rarity: 'common',
-  title:   { en: 'Title',  nl: 'Titel' },
-  flavour: { en: 'One dry line that makes someone nod.', nl: 'Eén droge zin.' },
+  title:   { en: 'Placeholder title', nl: 'Placeholder titel' },
+  flavour: { en: 'Placeholder: one dry line that makes someone nod.', nl: 'Placeholder: één droge zin.' },
   body: {
     en: `A paragraph or two. What this looks like in practice, with one concrete example.`,
     nl: `Een alinea of twee. Hoe dit er in de praktijk uitziet, met één concreet voorbeeld.`,
@@ -97,10 +101,42 @@ errors; the full validation runs in `content:check` and in the dev gallery.
 
 ```
 npm run content:new -- --id rules-lawyer --pack personality --rarity uncommon
+npm run content:new -- --id rules-lawyer --pack personality --after personality-02
 ```
 
-creates `content/cards/rules-lawyer.ts` from the template, appends the id to the pack
-in `packs.ts`, and opens nothing else. `--kind` defaults to the pack's default kind.
+| Flag | Default | Does |
+|---|---|---|
+| `--id <id>` | required | kebab-case; must not exist yet (card files, packs, the contact card) |
+| `--pack <packId>` | required | a pack id from `packs.ts` |
+| `--rarity <rarity>` | `common` | `common`, `uncommon`, `rare` or `holo` |
+| `--kind <kind>` | by pack | `trait`, `skill`, `experience` or `table`; default: personality → trait, craft → skill, table → table, track-record → experience, any other pack → trait |
+| `--after <cardId>` | append | insert right after that card of the same pack (reveal order) |
+| `--root <dir>` | `content/` | another content folder (tests) |
+
+It creates `content/cards/<id>.ts` from the template (id, kind and rarity filled in),
+inserts the id into the pack's `cards` in `packs.ts` (keeping its formatting), prints
+the new file's path and reminds you to open `/dev/cards`. It checks everything first: a
+bad or duplicate id, an unknown pack or `--after` card fails (exit 1) without touching
+any file.
+
+### Check, stats, lock
+
+```
+npm run content:check                         # validate; exit 1 on errors
+npm run content:stats                         # = content:check -- --stats
+npm run content:check -- --write-lock         # record the current ids in content/.ids.lock
+npm run content:check -- --no-placeholders    # launch check: placeholder cards are errors
+```
+
+- `--stats` prints cards per pack, the rarity distribution against the
+  [CONTENT-WORKSHOP](./CONTENT-WORKSHOP.md) §3 targets (common ~55 %, uncommon ~25 %,
+  rare ~15 %, holo 1–2 cards), how many cards still miss art, and the placeholder cards:
+  those whose `title` or `flavour` still contains "placeholder" (any case) in either
+  locale. The template starts that way on purpose.
+- `--no-placeholders` turns every remaining placeholder card into an error.
+- A new id makes the lock out of date (a warning): run `--write-lock` and commit it. A
+  removed or renamed id is an error until you bump `meta.contentVersion` (persisted
+  binders depend on it) and run `--write-lock`, or restore the id.
 
 ## 4. The dev gallery — see every card at once
 

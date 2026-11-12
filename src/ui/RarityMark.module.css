@@ -1,0 +1,10 @@
+.mark {
+  display: inline-block;
+  height: 0.8em;
+  width: auto;
+  flex: none;
+  overflow: visible;
+}
+.diamond {
+  height: 1.25em;
+}

@@ -1,0 +1,200 @@
+/* /dev/kit — tokens only. */
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--s-4) var(--s-12);
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-4) 0;
+  border-bottom: var(--border-2) solid var(--ink);
+}
+.headerMark {
+  font-size: var(--step-0);
+}
+.h1 {
+  font-size: var(--step-2);
+  text-transform: var(--display-transform);
+  letter-spacing: var(--display-tracking);
+  line-height: var(--display-leading);
+}
+.meta {
+  margin-left: auto;
+  font-size: var(--step--1);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.section {
+  display: grid;
+  gap: var(--s-4);
+  padding: var(--s-8) 0;
+  border-bottom: var(--border-1) solid var(--ink);
+}
+.h2 {
+  font-size: var(--step-1);
+  text-transform: var(--display-transform);
+  letter-spacing: var(--display-tracking);
+  line-height: var(--display-leading);
+}
+.h3 {
+  font-size: var(--step-0);
+  text-transform: var(--display-transform);
+  letter-spacing: var(--display-tracking);
+}
+.small {
+  font-size: var(--step--1);
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s-6);
+}
+.inline {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+.stateGrid {
+  display: grid;
+  gap: var(--s-4);
+}
+.stateRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--s-6);
+}
+.rowLabel {
+  width: 6em;
+  font-size: var(--step--1);
+  font-weight: 700;
+  align-self: center;
+}
+.cell {
+  display: grid;
+  justify-items: start;
+  gap: var(--s-2);
+}
+.cellBody {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: var(--s-1) var(--s-2) var(--s-1) 0;
+}
+.caption {
+  font-family: var(--font-text);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.bigMark {
+  font-size: var(--step-3);
+}
+.frameDemo {
+  display: grid;
+  place-items: center;
+  width: 128px;
+  height: 88px;
+  margin: 0 var(--s-3) var(--s-3) 0;
+}
+.frameDemo .caption {
+  color: var(--ink);
+}
+.tintGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--s-6);
+}
+.tintCard {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-4);
+}
+.tintBar {
+  font-size: var(--step--1);
+}
+.start {
+  justify-self: start;
+}
+.bars {
+  display: grid;
+  gap: var(--s-3);
+  font-size: var(--step-0);
+}
+.barLarge {
+  font-size: var(--step-2);
+}
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 640px;
+  font-size: var(--step--1);
+}
+.table th,
+.table td {
+  padding: var(--s-2) var(--s-4) var(--s-2) 0;
+  border-bottom: var(--border-1) solid var(--paper-2);
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+.table code {
+  overflow-wrap: anywhere;
+}
+.table thead th {
+  border-bottom-color: var(--ink);
+}
+.swatch {
+  display: block;
+  width: 64px;
+  height: 28px;
+  border: var(--border-1) solid var(--ink);
+}
+.fonts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--s-6);
+}
+.fontCard {
+  display: grid;
+  gap: var(--s-3);
+  padding: var(--s-4);
+}
+.displaySample {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  text-transform: var(--display-transform);
+  letter-spacing: var(--display-tracking);
+  line-height: var(--display-leading);
+}
+.displayAlphabet {
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  overflow-wrap: anywhere;
+}
+.textSample {
+  font-size: var(--step-1);
+  line-height: 1.4;
+}
+.scale {
+  display: grid;
+  gap: var(--s-3);
+  padding: 0;
+  list-style: none;
+}
+.scaleRow {
+  display: grid;
+  grid-template-columns: 7em 1fr;
+  align-items: baseline;
+  gap: var(--s-4);
+}
+.scaleSample {
+  font-family: var(--font-display);
+  text-transform: var(--display-transform);
+  letter-spacing: var(--display-tracking);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}

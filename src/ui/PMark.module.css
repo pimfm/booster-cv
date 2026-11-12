@@ -1,0 +1,13 @@
+.pmark {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75em;
+  height: 1.75em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  line-height: 1;
+  flex: none;
+}

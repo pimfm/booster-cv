@@ -2,7 +2,12 @@
 /**
  * npm run content:check — validates /content.
  *
- *   node scripts/content-check.mjs [--root <content dir>] [--stats] [--write-lock]
+ *   node scripts/content-check.mjs [--root <content dir>] [--stats] [--write-lock] [--no-placeholders]
+ *
+ *   --stats            cards per pack, rarity vs the CONTENT-WORKSHOP §3 targets, missing art,
+ *                      placeholder cards (also: npm run content:stats)
+ *   --write-lock       rewrite content/.ids.lock (after an intended id change)
+ *   --no-placeholders  cards whose title or flavour still says "placeholder" are errors (launch)
  *
  * Runs the shared rules (src/content/rules.ts, the same ones the app's loader runs)
  * plus the node-only checks: art file ratio (5:4 ±2 %) and the .ids.lock comparison.
@@ -121,6 +126,20 @@ for (const { card, file, prefix } of allCards) {
   }
 }
 
+// ── node-only: placeholder cards ───────────────────────────────────────────
+const PLACEHOLDER_TEXT = /placeholder/i;
+const placeholderFields = (card) =>
+  ['title', 'flavour'].flatMap((field) =>
+    ['en', 'nl'].filter((locale) => PLACEHOLDER_TEXT.test(String(card?.[field]?.[locale] ?? ''))).map((locale) => `${field}.${locale}`),
+  );
+const placeholderCards = allCards.filter(({ card }) => placeholderFields(card).length > 0);
+if (flag('--no-placeholders')) {
+  for (const { card, file, prefix } of placeholderCards) {
+    const fields = placeholderFields(card);
+    push(errors, file, `${prefix}${fields[0]}`, 'placeholder', `"${card.id}" still has placeholder text (${fields.join(', ')}); write it before launch`);
+  }
+}
+
 // ── node-only: .ids.lock ───────────────────────────────────────────────────
 const lockFile = join(root, '.ids.lock');
 const ids = [...new Set(allCards.map(({ card }) => card.id))].sort();
@@ -144,7 +163,7 @@ if (existsSync(lockFile)) {
         'content/meta.ts',
         'contentVersion',
         'ids-lock',
-        `card id${gone.length === 1 ? '' : 's'} removed or renamed since the lock (${gone.join(', ')}) but contentVersion is still ${lock.contentVersion} — bump meta.contentVersion (persisted binders depend on it), then run content:check --write-lock`,
+        `card ${gone.map((id) => `\`${id}\``).join(', ')} removed or renamed since the lock — bump meta.contentVersion (currently ${lock.contentVersion}; persisted binders depend on it) and run content:check --write-lock, or restore the id${gone.length === 1 ? '' : 's'}`,
       );
     } else if (gone.length > 0 || added.length > 0 || contentVersion !== lock.contentVersion) {
       lockStale = true;
@@ -174,14 +193,18 @@ if (flag('--stats')) {
   console.log('Cards per pack');
   for (const pack of packs) console.log(`  ${String(pack?.id).padEnd(16)} ${Array.isArray(pack?.cards) ? pack.cards.length : 0}`);
   console.log(`  ${'total'.padEnd(16)} ${inPacks.length} (+ 1 contact card)`);
-  console.log('Rarity');
+  // CONTENT-WORKSHOP §3
+  const targets = { common: '~55 %', uncommon: '~25 %', rare: '~15 %', holo: '1–2 cards' };
+  console.log('Rarity (target from CONTENT-WORKSHOP §3)');
   for (const rarity of ['common', 'uncommon', 'rare', 'holo']) {
     const n = inPacks.filter((card) => card.rarity === rarity).length;
     const pct = inPacks.length ? Math.round((n / inPacks.length) * 100) : 0;
-    console.log(`  ${rarity.padEnd(16)} ${String(n).padStart(2)}  ${String(pct).padStart(3)} %`);
+    console.log(`  ${rarity.padEnd(16)} ${String(n).padStart(2)}  ${String(pct).padStart(3)} %   target ${targets[rarity]}`);
   }
   const noArt = inPacks.filter((card) => card.art === null).length;
   console.log(`Missing art: ${noArt} of ${inPacks.length}`);
+  const list = placeholderCards.map(({ card }) => card.id);
+  console.log(`Placeholders: ${list.length} of ${allCards.length}${list.length ? ` (${list.join(', ')})` : ''}`);
   console.log('');
 }
 

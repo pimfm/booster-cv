@@ -5,6 +5,7 @@ import { getBundle } from '@/content/loader';
 import { ExperienceProvider } from '@/machine';
 import { AudioProvider } from '@/platform/audio/AudioProvider';
 import { LocaleProvider } from '@/platform/i18n';
+import { Meta } from '@/platform/meta';
 import { PersistenceProvider } from '@/platform/persistence/PersistenceProvider';
 import { AnimationActivityProvider } from './animationActivity';
 
@@ -18,6 +19,7 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <LazyMotion features={domAnimation} strict>
       <LocaleProvider strings={bundle.strings}>
+        <Meta meta={bundle.meta} />
         <ExperienceProvider bundle={bundle}>
           <PersistenceProvider>
             <AudioProvider>

@@ -23,7 +23,7 @@ PLAN §6. **Depends on** must be `done` before a story starts.
 |---|---|---|---|---|---|
 | [D-01](stories/D-01.md) | Two NeoBrutalist style tiles at `/dev/direction/1` and `/2` | M | F-06 | `src/dev/direction/*` | done |
 | [D-02](stories/D-02.md) | Pim picks → finalise tokens, type scale, rarity + tint ramps, placeholder art design | S | D-01 + Pim's choice | `src/design/tokens.css`, `tokens.ts` | done |
-| [D-03](stories/D-03.md) | Primitive kit + `/dev/kit`: Button, IconButton, Toggle, Badge, Frame, Chip, Kbd, VisuallyHidden | M | D-02 | `src/ui/*` | todo |
+| [D-03](stories/D-03.md) | Primitive kit + `/dev/kit`: Button, IconButton, Toggle, Badge, Frame, Chip, Kbd, VisuallyHidden | M | D-02 | `src/ui/*` | done |
 
 **Milestone M1** after D-03.
 
@@ -54,10 +54,10 @@ PLAN §6. **Depends on** must be `done` before a story starts.
 | ID | Story | Size | Depends on | Owns | Status |
 |---|---|---|---|---|---|
 | [PL-01](stories/PL-01.md) | i18n: `t()`, `useLocale`, detection, toggle (`L`), `lang` attr, per-locale card copy | M | F-06 | `src/platform/i18n/*`, `src/chrome/Header*` (lang part) | todo |
-| [PL-02](stories/PL-02.md) | Persistence: versioned localStorage, hydrate, reset, contentVersion invalidation | S | F-04 | `src/platform/persistence/*` | todo |
+| [PL-02](stories/PL-02.md) | Persistence: versioned localStorage, hydrate, reset, contentVersion invalidation | S | F-04 | `src/platform/persistence/*` | done |
 | [PL-03](stories/PL-03.md) | Sound: Web Audio, samples, opt-in toggle (`M`), event mapping | M | SC-02 | `src/platform/audio/*`, `public/sfx/*` | todo |
-| [PL-04](stories/PL-04.md) | Meta & OG: title/description per locale, `/dev/og` route, `og:render` script, favicon | S | D-02 | `src/platform/meta/*`, `scripts/og-render`, `public/` | todo |
-| [PL-05](stories/PL-05.md) | Deploy: GitHub Pages workflow, base path, 404 → index, preview instructions | S | F-01 | `.github/workflows/deploy.yml`, `vite.config.ts` base | todo |
+| [PL-04](stories/PL-04.md) | Meta & OG: title/description per locale, `/dev/og` route, `og:render` script, favicon | S | D-02 | `src/platform/meta/*`, `scripts/og-render`, `public/` | done |
+| [PL-05](stories/PL-05.md) | Deploy: GitHub Pages workflow, base path, 404 → index, preview instructions | S | F-01 | `.github/workflows/deploy.yml`, `vite.config.ts` base | done |
 | [PL-06](stories/PL-06.md) | Mobile polish: thumb zones, safe areas, viewport units, performance on mid-range phone | M | SC-02, BN-03 | cross-cutting CSS (listed in story) | todo |
 | [PL-07](stories/PL-07.md) | A11y pass: focus order, live region copy, shortcuts popover (`?`), contrast audit | M | SC-02, PL-01 | `src/chrome/ShortcutsPopover*`, `LiveRegion*` | todo |
 
@@ -67,7 +67,7 @@ PLAN §6. **Depends on** must be `done` before a story starts.
 
 | ID | Story | Size | Depends on | Owns | Status |
 |---|---|---|---|---|---|
-| [CT-01](stories/CT-01.md) | `content:new` scaffolder + `_template.ts` + `.ids.lock` versioning | S | F-03 | `scripts/content-new`, `content/cards/_template.ts` | todo |
+| [CT-01](stories/CT-01.md) | `content:new` scaffolder + `_template.ts` + `.ids.lock` versioning | S | F-03 | `scripts/content-new`, `content/cards/_template.ts` | done |
 | [CT-02](stories/CT-02.md) | Dev gallery `/dev/cards` with inline validation and filters | M | CR-01, CR-03 | `src/dev/cards/*` | todo |
 | [CT-03](stories/CT-03.md) | Art pipeline: webp variants, lazy loading, `artAlt`, placeholder initial | S | CR-01 | `src/content/art.ts`, vite image plugin config | todo |
 | [CT-04](stories/CT-04.md) | Contact card: `meta.contactCard`, auto-draw in all-collected, links in detail | S | SC-02 | `src/scene/ContactCard*` glue in StageCard | todo |

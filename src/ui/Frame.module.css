@@ -1,0 +1,45 @@
+.frame {
+  border: var(--border-2) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper);
+  color: var(--ink);
+}
+.frame[data-border='1'] {
+  border-width: var(--border-1);
+}
+.frame[data-border='3'] {
+  border-width: var(--border-3);
+}
+.frame[data-shadow='0'] {
+  box-shadow: var(--shadow-0);
+}
+.frame[data-shadow='1'] {
+  box-shadow: var(--shadow-1);
+}
+.frame[data-shadow='2'] {
+  box-shadow: var(--shadow-2);
+}
+.frame[data-shadow='3'] {
+  box-shadow: var(--shadow-3);
+}
+.frame[data-radius='card'] {
+  border-radius: var(--radius-card);
+}
+.frame[data-surface='paper-2'] {
+  background: var(--paper-2);
+}
+.frame[data-surface='tint-1'] {
+  background: var(--tint-1);
+}
+.frame[data-surface='tint-2'] {
+  background: var(--tint-2);
+}
+.frame[data-surface='tint-3'] {
+  background: var(--tint-3);
+}
+.frame[data-surface='tint-4'] {
+  background: var(--tint-4);
+}
+.frame[data-surface='tint-5'] {
+  background: var(--tint-5);
+}
