@@ -1,0 +1,200 @@
+/* Static sealed box + card back for the OG image. Ported from src/dev/direction/parts. Tokens only. */
+
+.pmark {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75em;
+  height: 1.75em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  line-height: 1;
+  flex: none;
+}
+
+/* ── Sealed box ─────────────────────────────────────────────────────────────────── */
+/* Front-on: a body, and a lid that is a little wider than the body. */
+.box {
+  position: relative;
+  width: 300px;
+  height: 348px;
+  margin: 8px 12px 8px 8px;
+  flex: none;
+}
+.boxBody {
+  position: absolute;
+  inset: 68px 8px 0;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-3) solid var(--ink);
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+  box-shadow: var(--shadow-2);
+}
+.boxLid {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  height: 72px;
+  padding: 0 var(--s-4);
+  border: var(--border-3) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+.boxSubtitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.boxMark {
+  font-size: 1.125rem;
+}
+.boxTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  padding: var(--s-2) var(--s-4) 0;
+}
+.boxName {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 5.5rem;
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+  text-transform: var(--display-transform);
+}
+.boxKind {
+  margin-top: var(--s-3);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+}
+.boxFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-top: var(--border-2) solid var(--ink);
+}
+.boxTints {
+  display: inline-flex;
+  gap: var(--s-1);
+}
+.boxTint {
+  width: 16px;
+  height: 16px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--tint);
+}
+.boxCounts {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* The wrap: a flat, nearly clear sheet with an outline, a diagonal seam and a tab to pull */
+.wrap {
+  position: absolute;
+  inset: -8px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--wrap);
+  pointer-events: none;
+}
+.seam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.seam line {
+  stroke: var(--ink);
+  stroke-width: var(--border-1);
+  stroke-dasharray: 2 6;
+  vector-effect: non-scaling-stroke;
+}
+.seam polygon {
+  fill: var(--paper);
+  opacity: 0.55;
+}
+.wrapTab {
+  position: absolute;
+  top: 26px;
+  right: -34px;
+  width: 30px;
+  height: 20px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+}
+
+/* ── Card back (face down) ──────────────────────────────────────────────────────── */
+.back {
+  --card-w: 220px;
+  position: absolute;
+  width: var(--card-w);
+  aspect-ratio: 5 / 7;
+  font-size: calc(var(--card-w) / 22.5);
+  padding: 0.9em;
+  border: var(--border-2) solid var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  box-shadow: var(--shadow-1);
+}
+.backInner {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  border: var(--border-1) solid var(--ink);
+  border-radius: calc(var(--radius-card) - var(--border-2) - 0.7em);
+  background: var(--paper-2);
+}
+.backInner::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9.4em;
+  height: 9.4em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.backMark {
+  position: relative;
+  font-size: 3.4em;
+  border-width: var(--border-2);
+  box-shadow: var(--shadow-1);
+}
+.backCorner {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  background: var(--ink);
+}
+.backCorner[data-corner='tl'] {
+  top: 0.9em;
+  left: 0.9em;
+}
+.backCorner[data-corner='tr'] {
+  top: 0.9em;
+  right: 0.9em;
+}
+.backCorner[data-corner='bl'] {
+  bottom: 0.9em;
+  left: 0.9em;
+}
+.backCorner[data-corner='br'] {
+  bottom: 0.9em;
+  right: 0.9em;
+}

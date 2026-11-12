@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- P mark: mustard square (accent-2), ink border and ink P. Hex values from src/design/tokens.ts palette. -->
+  <rect x="1.5" y="1.5" width="29" height="29" rx="2" fill="#e9b320" stroke="#17140f" stroke-width="3"/>
+  <path fill="#17140f" fill-rule="evenodd" d="M9 7h9.5a5.75 5.75 0 0 1 0 11.5H15V25H9Zm6 4.5v2.5h2.6a1.25 1.25 0 0 0 0-2.5Z"/>
+</svg>

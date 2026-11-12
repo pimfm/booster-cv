@@ -1,0 +1,13 @@
+{
+  "name": "Pim — Booster Box",
+  "short_name": "Booster Box",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "theme_color": "#f3ead2",
+  "background_color": "#f3ead2",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

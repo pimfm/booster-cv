@@ -3,8 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!-- Static English defaults for crawlers; <Meta> (src/platform/meta) follows the locale at
+         runtime. Text mirrors content/meta.ts `og` — index-html.test.ts keeps them in sync. -->
     <title>Pim — Booster Box</title>
-    <meta name="description" content="A booster box. The cards are Pim." />
+    <meta
+      name="description"
+      content="A CV in a sealed booster box. Open it, tear the packs, collect the cards."
+    />
+    <meta name="theme-color" content="#f3ead2" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pim — Booster Box" />
+    <meta property="og:title" content="Pim — Booster Box" />
+    <meta
+      property="og:description"
+      content="A CV in a sealed booster box. Open it, tear the packs, collect the cards."
+    />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A sealed booster box labelled Pim — Booster Box." />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:locale:alternate" content="nl_NL" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pim — Booster Box" />
+    <meta
+      name="twitter:description"
+      content="A CV in a sealed booster box. Open it, tear the packs, collect the cards."
+    />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og.png" />
   </head>
   <body>
     <div id="root"></div>

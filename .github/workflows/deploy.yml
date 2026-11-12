@@ -1,0 +1,52 @@
+name: deploy
+# Every push to main: run the full CI (check + e2e), build under the Pages sub-path, publish.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    needs: ci
+    runs-on: ubuntu-latest
+    env:
+      # repo variables (Settings → Secrets and variables → Actions → Variables); both optional
+      VITE_BASE: ${{ vars.VITE_BASE || format('/{0}/', github.event.repository.name) }}
+      VITE_SITE_URL: ${{ vars.VITE_SITE_URL || format('https://{0}.github.io/{1}', github.repository_owner, github.event.repository.name) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - uses: actions/configure-pages@v5
+      # vite.config.ts copies dist/index.html → dist/404.html (SPA fallback)
+      - run: npm run build
+      - name: Verify sub-path build
+        run: |
+          test -f dist/404.html
+          grep -q "src=\"${VITE_BASE}assets/" dist/index.html
+          grep -q "content=\"${VITE_SITE_URL}/og.png\"" dist/index.html
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist }
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

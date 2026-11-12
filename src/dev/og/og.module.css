@@ -1,0 +1,105 @@
+/* OG composition, 1200×630 CSS px. Fixed pixel geometry on purpose: it is an image. */
+.canvas {
+  position: relative;
+  display: grid;
+  grid-template-columns: 560px 1fr;
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+  padding: 72px 64px 72px 80px;
+  background-color: var(--paper);
+  background-image: var(--stage-texture);
+  background-size: var(--stage-texture-size);
+  color: var(--ink);
+  font-family: var(--font-text);
+}
+
+/* ── copy column ─────────────────────────────────────────────────────────────────── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  padding-bottom: 8px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  padding: var(--s-2) var(--s-4) var(--s-2) var(--s-2);
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+  box-shadow: var(--shadow-0);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+}
+.title {
+  margin-top: 36px;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 80px;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  text-transform: var(--display-transform);
+  text-wrap: balance;
+}
+.tagline {
+  max-width: 470px;
+  margin-top: 28px;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.swatches {
+  display: inline-flex;
+  gap: var(--s-1);
+}
+.swatch {
+  width: 20px;
+  height: 20px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--tint);
+}
+
+/* ── object column ───────────────────────────────────────────────────────────────── */
+.object {
+  position: relative;
+}
+.fan {
+  position: absolute;
+  top: 34px;
+  right: 120px;
+}
+.fanCard {
+  top: 0;
+  right: 0;
+  transform-origin: 50% 100%;
+}
+.boxHolder {
+  position: absolute;
+  right: 0;
+  bottom: -26px;
+  transform: scale(1.3);
+  transform-origin: 100% 100%;
+}
+
+/* ── apple-touch icon ────────────────────────────────────────────────────────────── */
+.icon {
+  display: grid;
+  place-items: center;
+  width: 180px;
+  height: 180px;
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+}
+.iconP {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 128px;
+  line-height: 1;
+  transform: translateY(4px);
+}
