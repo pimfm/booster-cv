@@ -1,4 +1,4 @@
-import { lazy, Suspense, type ComponentType, type LazyExoticComponent, type ReactNode } from 'react';
+import { createElement, lazy, Suspense, type ComponentType, type LazyExoticComponent, type ReactNode } from 'react';
 
 /**
  * Tiny path router. `/` is the experience; everything under `/dev` is development-only.
@@ -49,7 +49,7 @@ export function Router({ home }: { home: ReactNode }) {
   if (Dev) {
     return (
       <Suspense fallback={null}>
-        <Dev />
+        {createElement(Dev)}
       </Suspense>
     );
   }
