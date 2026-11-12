@@ -9,10 +9,9 @@ in `docs/AGENT-WORKFLOW.md` and are not optional.
 
 ## Stack
 
-Vite · React 18 · TypeScript strict · Framer Motion (`LazyMotion` + `m.*`) · CSS
-Modules + CSS custom-property tokens · zod · Vitest + Testing Library · Playwright
-(projects: `desktop-chromium`, `mobile-webkit`, each also with a reduced-motion
-fixture) · ESLint + Prettier · GitHub Actions → GitHub Pages.
+Vite 8 · React 19 · TypeScript 6 strict · Framer Motion (`LazyMotion` + `m.*`) · CSS
+Modules + CSS custom-property tokens · zod 4 · Vitest + Testing Library · Playwright
+(projects: `desktop-chromium`, `mobile-chromium`, each also `-reduced`; `mobile-webkit` with `PW_WEBKIT=1`) · ESLint + Prettier · GitHub Actions → GitHub Pages.
 
 ## Commands
 
@@ -38,8 +37,8 @@ npm run build && npm run preview
    position for the holo band) is fine.
 4. **Touch only files your story owns** (see story file → *Owns*). Anything else is a
    `## Requests` item in your PR.
-5. **Reduced motion is a first-class path**, not a `return null`. Use `useReducedMotion()`
-   via `src/design/useMotionPrefs.ts`, which also exposes the test override.
+5. **Reduced motion is a first-class path**, not a `return null`. Use `useMotionPrefs()`
+   from `src/design/useMotionPrefs.ts` (never Framer's hook directly).
 6. **Keyboard parity** for every pointer interaction (INTERACTION-SPEC §10).
 7. **Placeholders are designed**, not grey boxes. Placeholder art and placeholder
    cards (`src/content/placeholders.ts`) must pass the taste test.
@@ -79,3 +78,13 @@ set it to 50. Never ship logic that depends on it in production.
 
 Branch `story/<ID>-<slug>`. Conventional commits (`feat(PK-02): hold-to-tear`). PR
 body uses the template in AGENT-WORKFLOW §6. Rebase on `main` before merge.
+
+## Dev routes
+
+A file `src/dev/<path>.route.tsx` with a default-exported component is served at `/dev/<path>`
+(dev only, see `src/app/routes.tsx`). `/dev` lists them.
+
+## Content API
+
+Glob-free code imports from `@/content/bundle`, `@/content/types`, `@/content/rules`. Only the app
+entry uses `@/content/loader` (`getBundle()`), which loads and validates `/content`.

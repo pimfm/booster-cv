@@ -1,3 +1,5 @@
+import { Router } from './routes';
+
 export function App() {
-  return <main data-phase="sealed">booster-cv</main>;
+  return <Router home={<main data-phase="sealed">booster-cv</main>} />;
 }
