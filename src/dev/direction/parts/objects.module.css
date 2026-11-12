@@ -1,0 +1,237 @@
+/* The box and the packs. Token-based only. */
+
+/* ── Pack ───────────────────────────────────────────────────────────────────────── */
+.pack {
+  --pack-w: 150px;
+  --tint: var(--tint-1);
+  position: relative;
+  width: var(--pack-w);
+  aspect-ratio: 150 / 230;
+  flex: none;
+  font-size: calc(var(--pack-w) / 12.5);
+  filter: drop-shadow(4px 4px 0 var(--ink));
+}
+.lifted {
+  transform: translate(-2px, -2px);
+  filter: drop-shadow(8px 8px 0 var(--ink));
+}
+.packShape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.packShape path {
+  fill: var(--tint);
+  stroke: var(--ink);
+  stroke-width: var(--border-2);
+  stroke-linejoin: miter;
+  vector-effect: non-scaling-stroke;
+}
+.packShape line {
+  stroke: var(--ink);
+  stroke-width: var(--border-1);
+  vector-effect: non-scaling-stroke;
+}
+.packFace {
+  position: absolute;
+  inset: 9.6% 2px 9.6%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.5em;
+  padding: 0.9em 0.8em;
+  overflow: hidden;
+}
+.packInitial {
+  position: absolute;
+  top: 0.16em;
+  right: 0.12em;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 6.4em;
+  line-height: 0.74;
+  color: var(--tint);
+  -webkit-text-stroke: 0.04em var(--ink);
+  paint-order: stroke fill;
+}
+:global([data-rarity-style='stamp']) .packInitial {
+  color: var(--paper);
+  -webkit-text-stroke-width: 0.034em;
+  text-shadow: 0.04em 0.04em 0 var(--ink);
+}
+.packPlate {
+  position: relative;
+  max-width: 100%;
+  padding: 0.4em 0.55em 0.45em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+}
+.packName {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1.3em;
+  line-height: 1.02;
+  letter-spacing: var(--display-tracking);
+}
+.packCount {
+  position: relative;
+  font-size: max(0.95em, 11px);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Opened: flattened, quieter, no shadow */
+.opened {
+  filter: none;
+}
+.opened .packShape path {
+  fill: color-mix(in srgb, var(--tint) 28%, var(--paper));
+  stroke-width: var(--border-1);
+}
+.opened .packFace {
+  top: 22%;
+  gap: 0.45em;
+}
+.openedMark {
+  display: grid;
+  place-items: center;
+  width: 2em;
+  height: 2em;
+  margin-bottom: 0.2em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+}
+.openedName {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1.2em;
+  line-height: 1.02;
+  letter-spacing: var(--display-tracking);
+}
+
+/* ── Sealed box ─────────────────────────────────────────────────────────────────── */
+/* Front-on: a body, and a lid that is a little wider than the body. */
+.box {
+  position: relative;
+  width: 300px;
+  height: 348px;
+  margin: 8px 12px 8px 8px;
+  flex: none;
+}
+.boxBody {
+  position: absolute;
+  inset: 68px 8px 0;
+  display: flex;
+  flex-direction: column;
+  border: var(--border-3) solid var(--ink);
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+  box-shadow: var(--shadow-2);
+}
+.boxLid {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  height: 72px;
+  padding: 0 var(--s-4);
+  border: var(--border-3) solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-1);
+}
+.boxSubtitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.boxMark {
+  font-size: 1.125rem;
+}
+.boxTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  padding: var(--s-2) var(--s-4) 0;
+}
+.boxName {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 5.5rem;
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+  text-transform: var(--display-transform);
+}
+.boxKind {
+  margin-top: var(--s-3);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+}
+.boxFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-top: var(--border-2) solid var(--ink);
+}
+.boxTints {
+  display: inline-flex;
+  gap: var(--s-1);
+}
+.boxTint {
+  width: 16px;
+  height: 16px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--tint);
+}
+.boxCounts {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* The wrap: a flat, nearly clear sheet with an outline, a diagonal seam and a tab to pull */
+.wrap {
+  position: absolute;
+  inset: -8px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--wrap);
+  pointer-events: none;
+}
+.seam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.seam line {
+  stroke: var(--ink);
+  stroke-width: var(--border-1);
+  stroke-dasharray: 2 6;
+  vector-effect: non-scaling-stroke;
+}
+.seam polygon {
+  fill: var(--paper);
+  opacity: 0.55;
+}
+.wrapTab {
+  position: absolute;
+  top: 26px;
+  right: -34px;
+  width: 30px;
+  height: 20px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+}

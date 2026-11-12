@@ -1,0 +1,267 @@
+/* Controls for the style tile. Token-based only. */
+.pmark {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75em;
+  height: 1.75em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  line-height: 1;
+  flex: none;
+}
+
+.mark {
+  display: inline-block;
+  height: 0.8em;
+  width: auto;
+  flex: none;
+  overflow: visible;
+}
+.markDiamond {
+  height: 1.25em;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: stretch;
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper);
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1;
+}
+.badgeMark {
+  display: grid;
+  place-items: center;
+  min-width: 34px;
+  padding: 0 var(--s-2);
+  border-right: var(--border-1) solid var(--ink);
+  background: var(--rarity-common);
+  color: var(--ink);
+}
+.badge[data-rarity='uncommon'] .badgeMark {
+  background: var(--rarity-uncommon);
+}
+.badge[data-rarity='rare'] .badgeMark {
+  background: var(--rarity-rare);
+  color: var(--on-accent-1);
+}
+.badge[data-rarity='holo'] .badgeMark {
+  background: var(--rarity-holo);
+}
+.badgeLabel {
+  padding: 7px var(--s-3);
+}
+
+/* Chip */
+.chip {
+  display: inline-block;
+  padding: 5px var(--s-3);
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper-2);
+  font-size: var(--step--1);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Kbd */
+.kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 var(--s-2);
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper);
+  box-shadow: 0 3px 0 var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Button */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: 48px;
+  padding: 0 var(--s-6);
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-1);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+  text-transform: var(--display-transform);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform var(--dur-xs) var(--ease-out),
+    box-shadow var(--dur-xs) var(--ease-out);
+}
+.small {
+  min-height: 44px;
+  padding: 0 var(--s-4);
+  font-size: 0.875rem;
+}
+.secondary {
+  background: var(--paper);
+  color: var(--ink);
+}
+.ghost {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: none;
+  border-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+.button:hover:not(:disabled),
+.button.is-hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.button:active:not(:disabled),
+.button.is-active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
+}
+.ghost:hover:not(:disabled),
+.ghost.is-hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--ink);
+  background: var(--paper);
+}
+.ghost:active:not(:disabled),
+.ghost.is-active {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--ink);
+  background: var(--paper-2);
+}
+.button:focus-visible,
+.button.is-focus,
+.iconButton:focus-visible,
+.toggle:focus-visible,
+.toggle.is-focus,
+.segment:focus-visible {
+  outline: 3px solid var(--accent-1);
+  outline-offset: 2px;
+}
+.button:disabled {
+  background: var(--paper-2);
+  color: var(--ink-2);
+  border-color: var(--ink-2);
+  border-style: dashed;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.ghost:disabled {
+  background: transparent;
+  border-color: transparent;
+  text-decoration: none;
+}
+
+/* Icon button */
+.iconButton {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-0);
+  cursor: pointer;
+  transition:
+    transform var(--dur-xs) var(--ease-out),
+    box-shadow var(--dur-xs) var(--ease-out);
+}
+.iconButton:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* Toggle with a square thumb */
+.toggleRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+.toggle {
+  position: relative;
+  width: 56px;
+  height: 32px;
+  padding: 0;
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper-2);
+  cursor: pointer;
+}
+.thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+  transition: transform var(--dur-xs) var(--ease-out);
+}
+.toggleOn {
+  background: var(--accent-2);
+}
+.toggleOn .thumb {
+  background: var(--ink);
+  transform: translateX(24px);
+}
+.toggleLabel {
+  font-size: var(--step--1);
+  font-weight: 500;
+}
+
+/* Segmented language toggle */
+.segmented {
+  display: inline-flex;
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper);
+  box-shadow: var(--shadow-0);
+}
+.segment {
+  min-width: 44px;
+  height: 40px;
+  padding: 0 var(--s-2);
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+.segment + .segment {
+  border-left: var(--border-1) solid var(--ink);
+}
+.segmentOn {
+  background: var(--ink);
+  color: var(--paper);
+}

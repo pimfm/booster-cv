@@ -1,0 +1,313 @@
+/* Static stage compositions (desktop 1100×620, mobile 390×760). Token-based only. */
+.scaled {
+  width: 100%;
+}
+
+.frame {
+  display: flex;
+  flex-direction: column;
+  width: 1100px;
+  height: 620px;
+  border: var(--border-2) solid var(--ink);
+  background: var(--paper);
+  overflow: hidden;
+  font-size: 1rem;
+}
+.mobile {
+  width: 390px;
+  height: 760px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  height: 64px;
+  padding: 0 var(--s-6);
+  border-bottom: var(--border-2) solid var(--ink);
+  background: var(--paper);
+  flex: none;
+}
+.headerCompact {
+  height: 60px;
+  padding: 0 var(--s-3);
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  font-size: 1.125rem;
+}
+.brandName {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1.375rem;
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+}
+.brandSet {
+  padding-left: var(--s-3);
+  border-left: var(--border-1) solid var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.headerTools {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+.headerCompact .headerTools {
+  gap: var(--s-2);
+}
+
+/* Body */
+.desktopBody {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  flex: 1;
+  min-height: 0;
+}
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--paper);
+  background-image: var(--stage-texture);
+  background-size: var(--stage-texture-size);
+  background-position: 10px 10px;
+  min-width: 0;
+}
+.stageMobile {
+  flex: 1;
+  min-height: 0;
+}
+.shelf {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.shelfPacks {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--s-8);
+  padding: 0 var(--s-8);
+}
+.shelfGrid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: var(--s-4) var(--s-6);
+  padding: 0 var(--s-4);
+}
+.tray {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  align-self: stretch;
+  height: 48px;
+  margin-top: var(--s-2);
+  padding: 0 var(--s-4);
+  border: var(--border-2) solid var(--ink);
+  background: var(--accent-2);
+  color: var(--on-accent-2);
+  box-shadow: var(--tray-shadow, var(--shadow-1));
+}
+.trayName {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+}
+.trayCount {
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.hint {
+  margin-top: var(--s-8);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: var(--display-tracking);
+}
+.stageMobile .hint {
+  margin-top: var(--s-6);
+}
+.hintKeys {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-top: var(--s-3);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.hintKeys span {
+  margin-left: var(--s-1);
+}
+
+/* One oversized shadow instead of a texture */
+:global([data-stage='slab']) .tray {
+  --tray-shadow: var(--shadow-3);
+}
+:global([data-stage='slab']) .mobile .tray {
+  --tray-shadow: var(--shadow-2);
+}
+
+/* Binder rail (desktop) */
+.rail {
+  display: flex;
+  flex-direction: column;
+  border-left: var(--border-2) solid var(--ink);
+  background: var(--paper-2);
+  min-height: 0;
+  overflow: hidden;
+}
+.railHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-2);
+  padding: var(--s-3) var(--s-3) var(--s-3);
+  border-bottom: var(--border-2) solid var(--ink);
+  background: var(--paper);
+}
+.railTitle {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+}
+.railCount {
+  font-size: 0.875rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.progress {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-1);
+}
+.progressSeg {
+  height: 12px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+}
+.progressFill {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+}
+.railGroups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  padding: var(--s-3);
+}
+.groupName {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: 6px;
+  font-family: var(--font-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.groupTint {
+  width: 10px;
+  height: 10px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--tint);
+  box-sizing: content-box;
+}
+.slots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-2);
+}
+.slot {
+  position: relative;
+  display: block;
+  aspect-ratio: 5 / 7;
+  border: var(--border-1) dashed var(--ink-2);
+  border-radius: 4px;
+}
+.slotFilled {
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+  box-shadow: var(--shadow-0);
+}
+.slotArt {
+  position: absolute;
+  inset: 22% 4px 34%;
+  border: var(--border-1) solid var(--ink);
+  background: var(--tint);
+}
+.slotStamp {
+  display: none;
+}
+:global([data-rarity-style='frame']) .slotFilled {
+  background: var(--rarity);
+}
+:global([data-rarity-style='frame']) .slotArt {
+  inset: 5px 5px 40%;
+}
+:global([data-rarity-style='stamp']) .slotStamp {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: block;
+  width: 12px;
+  height: 12px;
+  border: var(--border-1) solid var(--ink);
+  background: var(--rarity);
+}
+
+/* Binder strip (mobile) */
+.strip {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  height: 96px;
+  border-top: var(--border-2) solid var(--ink);
+  background: var(--paper-2);
+  flex: none;
+  overflow: hidden;
+}
+.stripHead {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: center;
+  gap: var(--s-2);
+  padding: 0 var(--s-3);
+  border-right: var(--border-2) solid var(--ink);
+  background: var(--paper);
+}
+.stripHead .progress {
+  gap: 2px;
+}
+.stripSlots {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding: 0 var(--s-3);
+  overflow: hidden;
+}
+.stripGroup {
+  display: flex;
+  gap: var(--s-2);
+  flex: none;
+}
+.stripGroup .slot {
+  width: 46px;
+}

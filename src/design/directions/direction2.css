@@ -1,0 +1,51 @@
+/*
+ * Direction 2 — "Score pad" (D-01 proposal; D-02 freezes the chosen one into tokens.css).
+ * Scoped: nothing here leaks outside `.direction-2`.
+ * The first block overrides tokens.css; the second block holds proposed additions.
+ */
+.direction-2 {
+  /* colour */
+  --ink: #101038;
+  --paper: #eef1f1;
+  --paper-2: #dce2e6;
+  --accent-1: #ec4622;
+  --accent-2: #5fd6ad;
+  /* pack accents */
+  --tint-1: #ff9079;
+  --tint-2: #86d9c0;
+  --tint-3: #8ec5fb;
+  --tint-4: #ffd756;
+  --tint-5: #f5a9d0;
+  /* rarity — the colour of the corner stamp */
+  --rarity-common: #c3ccd4;
+  --rarity-uncommon: #5fd6ad;
+  --rarity-rare: #ec4622;
+  --rarity-holo: #ffd756;
+
+  /* geometry */
+  --radius-ui: 0px;
+  --radius-card: 10px;
+
+  /* type */
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', 'Arial Narrow', Arial, sans-serif;
+  --font-text: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --step-3: clamp(1.9rem, 1.4rem + 2.2vw, 3.1rem);
+  --step-4: clamp(2.4rem, 1.5rem + 4vw, 4.6rem);
+
+  /* proposed additions */
+  --ink-2: #45476b;
+  --on-accent-1: var(--ink);
+  --on-accent-2: var(--ink);
+  --primary: var(--accent-1);
+  --on-primary: var(--ink);
+  --shadow-0: 2px 2px 0 var(--ink);
+  --shadow-3: 16px 16px 0 var(--ink);
+  --display-weight: 800;
+  --display-transform: none;
+  --display-tracking: -0.025em;
+  --display-leading: 0.95;
+  --stage-texture: none;
+  --stage-texture-size: auto;
+  --wrap: color-mix(in srgb, var(--paper) 7%, transparent);
+  --holo-band: color-mix(in srgb, white 66%, transparent);
+}

@@ -1,0 +1,391 @@
+/*
+ * Card anatomy (DESIGN-BRIEF §5). Sizes are in em off a font-size derived from the card
+ * width, so one card scales as a whole. Token-based only.
+ *
+ * Layering inside .inner, for the holo band: fills (z auto) < band (1) < text (2).
+ * The band may cross fills and borders, never text.
+ */
+.card {
+  --card-w: 300px;
+  --rarity: var(--rarity-common);
+  --tint: var(--tint-1);
+  position: relative;
+  width: var(--card-w);
+  aspect-ratio: 5 / 7;
+  flex: none;
+  font-size: calc(var(--card-w) / 22.5);
+  line-height: 1.35;
+  border: var(--border-2) solid var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  box-shadow: var(--shadow-2);
+  text-align: left;
+}
+.flat {
+  box-shadow: var(--shadow-1);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--radius-card) - var(--border-2));
+  background: var(--paper);
+}
+
+/* Title bar */
+.titleBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  min-height: 2.9em;
+  padding: 0.4em 0.9em;
+  border-bottom: var(--border-1) solid var(--ink);
+}
+.title {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 1.25em;
+  line-height: 1.05;
+  letter-spacing: var(--display-tracking);
+  text-wrap: balance;
+}
+.titleMark {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  font-size: 1.15em;
+}
+
+/* Art frame, 5:4 */
+.art {
+  position: relative;
+  aspect-ratio: 5 / 4;
+  margin: 0.8em 0.9em 0;
+  border: var(--border-2) solid var(--ink);
+  background: var(--tint);
+  overflow: hidden;
+  flex: none;
+}
+.initial {
+  position: absolute;
+  z-index: 2;
+  right: 0.07em;
+  bottom: 0.09em;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 11.5em;
+  line-height: 0.74;
+  color: var(--tint);
+  -webkit-text-stroke: 0.036em var(--ink);
+  paint-order: stroke fill;
+}
+.artLabel {
+  position: absolute;
+  z-index: 2;
+  left: 0.7em;
+  bottom: 0.7em;
+  padding: 0.25em 0.5em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+  font-size: 0.82em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+.crop {
+  position: absolute;
+  z-index: 2;
+  width: 0.9em;
+  height: 0.9em;
+  border: 0 solid var(--ink);
+}
+.crop[data-corner='tl'] {
+  top: 0.7em;
+  left: 0.7em;
+  border-top-width: var(--border-1);
+  border-left-width: var(--border-1);
+}
+.crop[data-corner='tr'] {
+  display: none;
+}
+.crop[data-corner='br'] {
+  display: none;
+}
+
+/* Body */
+.body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding: 0.55em 0.9em 0.6em;
+}
+.typeLine {
+  font-size: 0.86em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+.flavour {
+  margin-top: 0.3em;
+  font-size: 0.92em;
+  font-style: italic;
+  line-height: 1.32;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Stats: label + ten bordered squares */
+.stats {
+  display: grid;
+  gap: 0.3em;
+  margin-top: auto;
+  padding-top: 0.4em;
+}
+.stat {
+  display: grid;
+  grid-template-columns: 5.2em 1fr;
+  align-items: center;
+  gap: 0.5em;
+}
+.stat dt {
+  font-size: 0.82em;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stat dd {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.segments {
+  display: grid;
+  grid-template-columns: repeat(10, 0.86em);
+  gap: 0.18em;
+}
+.segment {
+  height: 0.86em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+}
+.segmentOn {
+  background: var(--tint);
+}
+.statValue {
+  font-size: 0.82em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.statsLarge {
+  font-size: 15px;
+  gap: 8px;
+  margin-top: 0;
+  padding-top: 0;
+}
+.statsLarge .stat {
+  grid-template-columns: 5.5em 1fr;
+}
+.statsLarge .segments {
+  grid-template-columns: repeat(10, 14px);
+  gap: 3px;
+}
+.statsLarge .segment {
+  height: 14px;
+}
+@media (min-width: 720px) {
+  .statsLarge .segments {
+    grid-template-columns: repeat(10, 16px);
+    gap: 4px;
+  }
+  .statsLarge .segment {
+    height: 16px;
+  }
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6em;
+  margin-top: 0.55em;
+  padding-top: 0.45em;
+  border-top: var(--border-1) solid var(--ink);
+}
+.number {
+  font-size: 0.82em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.tag {
+  padding: 0.18em 0.55em;
+  border: var(--border-1) solid var(--ink);
+  border-radius: var(--radius-ui);
+  background: var(--paper-2);
+  font-size: 0.8em;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+/* Holo: the one permitted sharp band (static here; it sweeps in the app) */
+.band {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 0 34%,
+    var(--holo-band) 34% 46%,
+    transparent 46% 49%,
+    var(--holo-band) 49% 51%,
+    transparent 51%
+  );
+}
+
+/* Corner stamp — only in the "stamp" rarity language */
+.stamp {
+  display: none;
+}
+
+/* ── Rarity language A: the colour of the frame (direction 1) ───────────────────── */
+:global([data-rarity-style='frame']) .card:not(.back) {
+  background: var(--rarity);
+  padding: 0.56em;
+}
+:global([data-rarity-style='frame']) .card:not(.back) .inner {
+  border: var(--border-1) solid var(--ink);
+  border-radius: calc(var(--radius-card) - var(--border-2) - 0.5em);
+}
+:global([data-rarity-style='frame']) .art {
+  margin: 0.7em 0.8em 0;
+}
+:global([data-rarity-style='frame']) .titleBar,
+:global([data-rarity-style='frame']) .body {
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+}
+
+/* ── Rarity language B: ink border + corner stamp (direction 2) ─────────────────── */
+:global([data-rarity-style='stamp']) .titleBar {
+  z-index: 2;
+  background: var(--ink);
+  padding-right: 3em;
+  min-height: 3.1em;
+}
+:global([data-rarity-style='stamp']) .title {
+  color: var(--paper);
+  letter-spacing: -0.015em;
+}
+:global([data-rarity-style='stamp']) .titleMark {
+  display: none;
+}
+:global([data-rarity-style='stamp']) .title {
+  font-size: 1.38em;
+}
+:global([data-rarity-style='stamp']) .stamp {
+  position: absolute;
+  z-index: 3;
+  top: -0.9em;
+  right: -0.9em;
+  display: grid;
+  place-items: center;
+  width: 3.1em;
+  height: 3.1em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--rarity);
+  color: var(--ink);
+  box-shadow: var(--shadow-0);
+  font-size: 1.1em;
+}
+:global([data-rarity-style='stamp']) .initial {
+  color: var(--paper);
+  -webkit-text-stroke-width: 0.03em;
+  text-shadow: 0.035em 0.035em 0 var(--ink);
+}
+:global([data-rarity-style='stamp']) .crop {
+  display: none;
+}
+
+/* ── Card back ──────────────────────────────────────────────────────────────────── */
+.back {
+  padding: 0.9em;
+  background: var(--paper);
+}
+.backInner {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  border: var(--border-1) solid var(--ink);
+  border-radius: calc(var(--radius-card) - var(--border-2) - 0.7em);
+  background: var(--paper-2);
+}
+.backInner::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9.4em;
+  height: 9.4em;
+  border: var(--border-1) solid var(--ink);
+  background: var(--paper);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.backMark {
+  position: relative;
+  width: 2em;
+  height: 2em;
+  font-size: 3.4em;
+  border-width: var(--border-2);
+  box-shadow: var(--shadow-1);
+}
+.backLabel {
+  position: absolute;
+  bottom: 1.4em;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.86em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.backCorner {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  background: var(--ink);
+}
+.backCorner[data-corner='tl'] {
+  top: 0.9em;
+  left: 0.9em;
+}
+.backCorner[data-corner='tr'] {
+  top: 0.9em;
+  right: 0.9em;
+}
+.backCorner[data-corner='bl'] {
+  bottom: 0.9em;
+  left: 0.9em;
+}
+.backCorner[data-corner='br'] {
+  bottom: 0.9em;
+  right: 0.9em;
+}
